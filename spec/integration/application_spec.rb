@@ -33,26 +33,29 @@ describe Application do
     end
   end
 
-  context "artist GET /" do
-    it "returns 200 OK" do
+  context "GET /artists" do
+    it "returns correct content" do
       response = get('/artists')
-      expect(response.status).to eq(200)
-    end
-
-    it "returns 200 OK with correct content" do
-      response = get('/artists')
-      expect(response.status).to eq(200)
-      expect(response.body).to eq("Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos")
+      expect(response.body).to include('Mac Miller')
     end
   end
 
-  context "artist POST /" do
-    it "returns 200 OK with new content" do
-      response = post('/artists', name: "Wild nothing", genre: "Indie")
-      expect(response.status).to eq(200)
+   context 'GET /albums/id' do
+    it "returns 200 OK with album 2 details" do
+      response = get('/albums/2')
 
-      response = get('/artists')
-      expect(response.body).to eq("Pixies, ABBA, Taylor Swift, Nina Simone, Kiasmos, Wild nothing")
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<h1>Surfer Rosa</h1>')
+      expect(response.body).to include('Pixies')
+      expect(response.body).to include('1988')
+    end
+  end
+
+  context "GET /albums" do
+    it "returns 200 OK with all album details" do
+      response = get('/albums')
+      expect(response.status).to eq(200)
+      expect(response.body).to include('Lover')
     end
   end
 end
